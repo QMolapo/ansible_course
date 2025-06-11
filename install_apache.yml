@@ -3,16 +3,36 @@
   become: true
   tasks:
 
-  - name: update repository index
+  - name: Update repository index (Debian-based)
     ansible.builtin.apt:
       update_cache: yes
+    when: ansible_os_family == "Debian"
 
-  - name: install apache2 package
+  - name: Install Apache (Debian-based)
     ansible.builtin.apt:
       name: apache2
       state: latest
+    when: ansible_os_family == "Debian"
 
-  - name: install support for php
+  - name: Install PHP support for Apache (Debian-based)
     ansible.builtin.apt:
       name: libapache2-mod-php
       state: latest
+    when: ansible_os_family == "Debian"
+
+  - name: Update repository index (RedHat-based)
+    ansible.builtin.dnf:
+      update_cache: yes
+    when: ansible_os_family == "RedHat"
+
+  - name: Install Apache (RedHat-based)
+    ansible.builtin.dnf:
+      name: httpd
+      state: latest
+    when: ansible_os_family == "RedHat"
+
+  - name: Install PHP support (RedHat-based)
+    ansible.builtin.dnf:
+      name: php
+      state: latest
+    when: ansible_os_family == "RedHat"
