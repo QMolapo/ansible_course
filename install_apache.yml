@@ -1,38 +1,14 @@
 ---
-- hosts: all
+- name: Install Apache on Linux
+  hosts: all
   become: true
+  vars:
+    ansible_use_dnf5: false
   tasks:
-
-  - name: Update repository index (Debian-based)
-    ansible.builtin.apt:
-      update_cache: yes
-    when: ansible_os_family == "Debian"
-
-  - name: Install Apache (Debian-based)
-    ansible.builtin.apt:
-      name: apache2
-      state: latest
-    when: ansible_os_family == "Debian"
-
-  - name: Install PHP support for Apache (Debian-based)
-    ansible.builtin.apt:
-      name: libapache2-mod-php
-      state: latest
-    when: ansible_os_family == "Debian"
-
-  - name: Update repository index (RedHat-based)
-    ansible.builtin.dnf:
-      update_cache: yes
-    when: ansible_os_family == "RedHat"
-
-  - name: Install Apache (RedHat-based)
-    ansible.builtin.dnf:
-      name: httpd
-      state: latest
-    when: ansible_os_family == "RedHat"
-
-  - name: Install PHP support (RedHat-based)
-    ansible.builtin.dnf:
-      name: php
-      state: latest
-    when: ansible_os_family == "RedHat"
+    - name: Install Apache (Debian-based)
+      ansible.builtin.package:
+        name:
+          - "{{ apache_package }}"
+          - "{{ php_package }}"
+        state: present
+        update_cache: true
