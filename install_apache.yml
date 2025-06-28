@@ -3,14 +3,11 @@
   hosts: all
   become: true
   tasks:
-    - name: Update Repository Index
-      ansible.builtin.apt:
+
+    - name: Install Apache2 Package (Ubuntu)
+      ansible.builtin.package:
+        name:
+          - "{{ apache_package }}"
+          - "{{ php_package }}"
+        state: present
         update_cache: true
-    - name: Install Apache2 Package
-      ansible.builtin.apt:
-        name: apache2
-        state: present
-    - name: Install support for php
-      ansible.builtin.apt:
-        name: libapache2-mod-php
-        state: present
