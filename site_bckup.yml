@@ -3,17 +3,11 @@
   hosts: web_servers
   become: true
   tasks:
-    - name: Refresh apt cache (Ubuntu)
-      tags: always
-      ansible.builtin.apt:
-        update_cache: true
-      when: ansible_distribution == "Ubuntu"
-
-    - name: Upgrade packages (Ubuntu)
+    - name: Install Updates For Ubuntu
       tags: always
       ansible.builtin.apt:
         upgrade: dist
-        dpkg_options: 'force-confdef,force-confold'
+        update_cache: true
       when: ansible_distribution == "Ubuntu"
 
 - name: Install Apache on Web Servers
@@ -43,21 +37,12 @@
         state: started
       when: ansible_distribution == "Ubuntu"
 
-    - name: Ensure Apache Is Running (AlmaLinux)
-      tags: apache,almalinux
+    - name: Ensure Apache  Is Running (AlmaLinux)
+      tags: apache, AlmaLinux
       ansible.builtin.service:
         name: httpd
         state: started
       when: ansible_distribution == "AlmaLinux"
-
-    - name: Change Email Address For Admin
-      tags: apache,almalinux
-      ansible.builtin.lineinfile:
-        path: /etc/httpd/conf/httpd.conf
-        regexp: '^ServerAdmin'
-        line: ServerAdmin molapoq@outlook.com
-      when: ansible_distribution == "AlmaLinux"
-      notify: Restart Httpd (AlmaLinux)
 
     - name: Copy HTML File For Site
       tags: apache,ubuntu
@@ -67,13 +52,6 @@
         owner: molapo
         group: molapo
         mode: '0644'
-
-  handlers:
-    - name: Restart Httpd (AlmaLinux)
-      ansible.builtin.service:
-        name: httpd
-        state: restarted
-      when: ansible_distribution == "AlmaLinux"
 
 - name: Install MariaDB on DB Servers
   hosts: db_servers

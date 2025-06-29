@@ -1,5 +1,6 @@
 [web_servers]
-192.168.0.183
+192.168.0.183 ansible_user=molapo ansible_ssh_private_key_file=~/.ssh/ansible
+192.168.0.205 ansible_user=molapo ansible_ssh_private_key_file=~/.ssh/ansible
 
 [db_servers]
-192.168.0.205
+192.168.0.205 ansible_user=molapo ansible_ssh_private_key_file=~/.ssh/ansible
