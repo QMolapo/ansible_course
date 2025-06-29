@@ -1,0 +1,2 @@
+# Managed by Ansible
+molapo ALL=(ALL) NOPASSWD: ALL

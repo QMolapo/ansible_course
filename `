@@ -23,32 +23,16 @@
       when: ansible_distribution == "AlmaLinux"
 
     - name: Upgrade all packages (AlmaLinux)
-      tags: always
       ansible.builtin.dnf:
         update_only: true
         update_cache: true
       when: ansible_distribution == "AlmaLinux"
 
-    - name: Create User
+    - name: create user
       tags: always
       ansible.builtin.user:
         name: genius
         groups: molapo
-
-    - name: Add Ssh Key For Molapo User
-      tags: always
-      ansible.posix.authorized_key:
-        user: molapo
-        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKbMO3BLmZAWxDxYtIDqqy8qyXHQY7ga3VMwhGLb3Api molapo@ubuntu-ws"
-
-    - name: Add Sudoers File For Molapo
-      tags: always
-      ansible.builtin.copy:
-        src: sudoers_molapo
-        dest: /etc/sudoers.d/molapo
-        owner: root
-        group: root
-        mode: '0440'
 
 - name: Install Apache on Web Servers
   hosts: web_servers
