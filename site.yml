@@ -1,0 +1,38 @@
+---
+- name: Update all servers
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: Install Updates For AlmaLinux
+      ansible.builtin.dnf:
+        update_only: true
+        update_cache: true
+      when: ansible_distribution == "AlmaLinux"
+
+    - name: Install Updates For Ubuntu
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: true
+      when: ansible_distribution == "Ubuntu"
+
+- name: Install Apache on Web Servers
+  hosts: web_servers
+  become: true
+  tasks:
+    - name: Install Apache On Web Servers
+      ansible.builtin.apt:
+        name:
+          - apache2
+          - libapache2-mod-php
+        state: present
+      when: ansible_distribution == "Ubuntu"
+
+- name: Install MariaDB on DB Servers
+  hosts: db_servers
+  become: true
+  tasks:
+    - name: Install MariaDB Package On Db Servers
+      ansible.builtin.dnf:
+        name: mariadb
+        state: present
+      when: ansible_distribution == "AlmaLinux"
