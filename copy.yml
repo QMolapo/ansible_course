@@ -1,0 +1,13 @@
+---
+- name: Copy File Local To Remote Clients
+  hosts: all
+
+  tasks:
+    - name: Copy File
+      become: true
+      copy:
+        src: /home/molapo/some.cfg
+        dest: /tmp
+        owner: molapo
+        group: molapo
+        mode: '0644'
