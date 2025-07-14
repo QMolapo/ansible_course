@@ -1,0 +1,14 @@
+---
+- name: Add Or Update User Password
+  hosts: all
+  become: true
+
+  vars:
+    newpassword: "abc123"
+
+  tasks:
+    - name: Change "george" password
+      ansible.builtin.user:
+        name: george
+        update_password: always
+        password: "{{ newpassword | password_hash('sha512') }}"

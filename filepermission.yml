@@ -1,0 +1,8 @@
+---
+- name: Change File Permissions
+  hosts: all
+  tasks:
+    - name: Files Permission
+      ansible.builtin.file:
+        path: /home/molapo/linux2
+        mode: 'a+w'

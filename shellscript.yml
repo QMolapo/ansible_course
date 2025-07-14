@@ -1,0 +1,8 @@
+---
+- name: Playbook For Shell Script
+  hosts: 192.168.0.205
+  become: true
+  tasks:
+    - name: Run Shell Script
+      ansible.builtin.command: /home/molapo/cfile.sh
+      changed_when: false

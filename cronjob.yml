@@ -1,0 +1,16 @@
+---
+- name: Create A Cron Job
+  hosts: all
+  become: true  # Ensures you're running as root if needed
+
+  tasks:
+    - name: Schedule Cron
+      ansible.builtin.cron:
+        name: "This Job Is Scheduled By Ansible"
+        minute: "0"
+        hour: "10"
+        day: "*"
+        month: "*"
+        weekday: "4"
+        user: root
+        job: "/home/molapo/cfile.sh"

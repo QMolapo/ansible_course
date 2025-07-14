@@ -1,0 +1,11 @@
+---
+- name: Playbook For Creating Users
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Create Users
+      ansible.builtin.user:
+        name: george
+        home: /home/george
+        shell: /bin/bash
